@@ -4,7 +4,12 @@ controller_path = File.dirname(__FILE__) + '/lib/controllers'
 $LOAD_PATH << controller_path
 
 if defined?(ActiveSupport::Dependencies)
-  ActiveSupport::Dependencies.load_paths << controller_path
+  if ActiveSupport::Dependencies.respond_to?(:autoload_paths)
+    ActiveSupport::Dependencies.autoload_paths << controller_path
+  else
+    ActiveSupport::Dependencies.load_paths << controller_path
+  end
+
 else
   Dependencies.load_paths << controller_path
 end
